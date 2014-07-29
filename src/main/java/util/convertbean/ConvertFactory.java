@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 /**
  * 对象拷贝工具类
- * TODO 大量反射性能不好
+ * TODO 对多泛型变量的拷贝还支持的不好
  * Created with IntelliJ IDEA.
  * User: liukunyang
  * Date: 14-7-7
