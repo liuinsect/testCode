@@ -1,7 +1,5 @@
 package guava;
 
-import io.netty.util.internal.chmv8.LongAdder;
-
 import java.util.Random;
 
 /**
