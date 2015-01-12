@@ -2,20 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>allTest</artifactId>
-        <groupId>allTest</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+
+
+    <groupId>com.liusoft</groupId>
+    <artifactId>testCode</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>testCode</artifactId>
     <dependencies>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>15.0</version>
+            <version>14.0</version>
         </dependency>
 
         <dependency>
