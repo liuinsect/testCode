@@ -1,6 +1,5 @@
 package digester.rule;
 
-import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.xml.sax.Attributes;
 
