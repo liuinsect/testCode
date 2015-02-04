@@ -40,7 +40,7 @@ public class UpdateBuffer {
     }
 
     public static void update(final Object key , final Object object ,final Handler handler ){
-        updateThreadPool.add(new UpdateRequestEntry(buffer,key,object,handler));
+        updateThreadPool.add(new UpdateRequestEntry(key,object,handler));
     }
 
 

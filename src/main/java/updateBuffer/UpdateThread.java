@@ -9,8 +9,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class UpdateThread implements Runnable {
 
     private UpdateRequestEntry updateRequestEntry;
+    private Buffer<Object,BufferValue> buffer;
 
-    public UpdateThread(UpdateRequestEntry updateRequestEntry) {
+    public UpdateThread(Buffer<Object,BufferValue> buffer,UpdateRequestEntry updateRequestEntry) {
+        this.buffer = buffer;
         this.updateRequestEntry = updateRequestEntry;
     }
 
@@ -18,7 +20,6 @@ public class UpdateThread implements Runnable {
     public void run() {
         Handler handler = updateRequestEntry.getHandler();
         Object key = updateRequestEntry.getKey();
-        Buffer<Object,BufferValue> buffer = updateRequestEntry.getBuffer();
         BufferValue bufferValue = buffer.get(key);
         if (bufferValue == null) {
             Object value = handler.initBufferLine();
@@ -30,6 +31,8 @@ public class UpdateThread implements Runnable {
             BufferValue newBufferValue = buffer.putIfAbsent( key, bufferValue);
             if( newBufferValue != null ){
                 bufferValue = newBufferValue;
+            }else{
+                bufferValue = buffer.get(key);
             }
 
         }

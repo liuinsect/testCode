@@ -32,7 +32,7 @@ public class UpdateThreadPool {
             UpdateRequestEntry updateRequestEntry = null;
             try {
                 updateRequestEntry = updateRequestQueue.take();
-                threadPool.execute(new UpdateThread(updateRequestEntry));
+                threadPool.execute(new UpdateThread(buffer,updateRequestEntry));
             } catch (InterruptedException e) {
 
             }

@@ -9,10 +9,8 @@ public class UpdateRequestEntry {
     private Object key;
     private Object value;
     private Handler handler;
-    private Buffer<Object,BufferValue> buffer;
 
-    public UpdateRequestEntry(Buffer buffer, Object key, Object value, Handler handler) {
-        this.buffer = buffer;
+    public UpdateRequestEntry( Object key, Object value, Handler handler) {
         this.key = key;
         this.value = value;
         this.handler = handler;
@@ -40,14 +38,6 @@ public class UpdateRequestEntry {
 
     public void setHandler(Handler handler) {
         this.handler = handler;
-    }
-
-    public Buffer getBuffer() {
-        return buffer;
-    }
-
-    public void setBuffer(Buffer buffer) {
-        this.buffer = buffer;
     }
 
 }
