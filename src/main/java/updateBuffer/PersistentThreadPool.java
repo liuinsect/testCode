@@ -35,6 +35,9 @@ public class PersistentThreadPool {
             while (enumeration.hasMoreElements()) {
                 Object key = enumeration.nextElement();
                 BufferValue bufferValue = (BufferValue) buffer.remove(key);
+
+                System.out.println(buffer.get(key));
+
                 if (bufferValue == null) {
                     continue;
                 }

@@ -18,7 +18,7 @@ public class UpdateBuffer {
     private static PersistentThreadPool persistentThreadPool = null;
 
     static{
-        updateThreadPool = new UpdateThreadPool(buffer);
+        updateThreadPool = new UpdateThreadPool(5,buffer);
         persistentThreadPool = new PersistentThreadPool(5,buffer);
 
         new Thread(new Runnable() {

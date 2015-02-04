@@ -16,13 +16,7 @@ public class UpdateThread implements Runnable {
 
     @Override
     public void run() {
-        try{
-            for(;;){
-                updateRequestEntry.getHandler().update(updateRequestEntry);
-            }
-        }catch (Exception e){
-
-        }
+        updateRequestEntry.getHandler().update(updateRequestEntry);
 
     }
 }

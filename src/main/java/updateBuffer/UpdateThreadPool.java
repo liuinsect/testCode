@@ -13,11 +13,16 @@ public class UpdateThreadPool {
 
     private Buffer<Object, BufferValue> buffer;
 
-//    private ThreadPoolExecutor threadPool;
+    private ThreadPoolExecutor threadPool;
 
 
-    public UpdateThreadPool(Buffer<Object, BufferValue> buffer) {
+    public UpdateThreadPool( int workerSize , Buffer<Object, BufferValue> buffer ) {
         this.buffer = buffer;
+        threadPool = new ThreadPoolExecutor(workerSize, workerSize,
+                60L, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>(),
+                new BufferThreadFactory("PersistentThreadPool"),
+                new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
     private BlockingQueue<UpdateRequestEntry> updateRequestQueue = new LinkedBlockingQueue<UpdateRequestEntry>();
@@ -27,7 +32,7 @@ public class UpdateThreadPool {
             UpdateRequestEntry updateRequestEntry = null;
             try {
                 updateRequestEntry = updateRequestQueue.take();
-                updateRequestEntry.getHandler().update(updateRequestEntry);
+                threadPool.execute(new UpdateThread(updateRequestEntry));
             } catch (InterruptedException e) {
 
             }
