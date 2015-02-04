@@ -3,6 +3,9 @@ package updateBuffer;
 /**
  *
  * 异步更新工具类
+ * 解决更新频繁的问题，
+ * 可以使用多种更新策略
+ * 定时/定量  等等。
  * Created with IntelliJ IDEA.
  * User: liukunyang
  * Date: 14-6-17
