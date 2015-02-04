@@ -1,7 +1,10 @@
 package updateBuffer;
 
+import org.apache.log4j.Logger;
+
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -9,11 +12,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class Buffer<K, V> {
 
+    private Logger logger = Logger.getLogger(Buffer.class);
+
     private ConcurrentHashMap<K, V> concurrentHashMap = new ConcurrentHashMap<K, V>();
     private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private Condition writeLockCondition = readWriteLock.writeLock().newCondition();
+    ReentrantReadWriteLock.WriteLock writeLock = readWriteLock.writeLock();
+    ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
 
     public V get(Object key) {
-        ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
         try {
             readLock.lock();
             return concurrentHashMap.get(key);
@@ -24,7 +31,6 @@ public class Buffer<K, V> {
 
 
     public V putIfAbsent(K key, V value) {
-        ReentrantReadWriteLock.WriteLock writeLock = readWriteLock.writeLock();
         try {
             writeLock.lock();
             return concurrentHashMap.putIfAbsent(key, value);
@@ -34,7 +40,6 @@ public class Buffer<K, V> {
     }
 
     public V remove(K key) {
-        ReentrantReadWriteLock.WriteLock writeLock = readWriteLock.writeLock();
         try {
             writeLock.lock();
             return concurrentHashMap.remove(key);
@@ -44,7 +49,6 @@ public class Buffer<K, V> {
     }
 
     public Enumeration<K> keys() {
-        ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
         try {
             readLock.lock();
             return concurrentHashMap.keys();
@@ -55,12 +59,31 @@ public class Buffer<K, V> {
 
 
     public boolean isEmpty() {
-        ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
         try {
             readLock.lock();
             return concurrentHashMap.isEmpty();
         } finally {
             readLock.unlock();
+        }
+    }
+
+    public void waitForTrigger(){
+        try {
+            writeLock.lock();
+            writeLockCondition.await();
+        } catch (InterruptedException e) {
+            logger.error("buffer writeLockCondition has been interrupted",e);
+        } finally {
+            writeLock.unlock();
+        }
+    }
+
+    public void notifyWaiter(){
+        try {
+            writeLock.lock();
+            writeLockCondition.signalAll();
+        } finally {
+            writeLock.unlock();
         }
     }
 

@@ -9,16 +9,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by liukunyang on 15-2-3.
  */
-public class VisitLogHandler extends Handler {
+public class VisitLogHandler implements Handler {
 
 
     @Override
-    protected Object initBufferLine() {
+    public Object initBufferLine() {
         return new ConcurrentLinkedQueue();
     }
 
     @Override
-    protected boolean doUpdate(Object value, Object newValue) {
+    public boolean doUpdate(Object value, Object newValue) {
         ConcurrentLinkedQueue queue = (ConcurrentLinkedQueue)value;
         queue.add(newValue);
         if( queue.size() > 1 ){

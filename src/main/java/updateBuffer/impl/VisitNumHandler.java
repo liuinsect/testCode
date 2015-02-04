@@ -7,18 +7,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by liukunyang on 15-2-3.
  */
-public class VisitNumHandler extends Handler {
+public class VisitNumHandler implements Handler {
 
     @Override
-    protected Object initBufferLine() {
+    public Object initBufferLine() {
         return new AtomicInteger();
     }
 
     @Override
-    protected boolean doUpdate(Object value, Object newValue) {
+    public boolean doUpdate(Object value, Object newValue) {
         AtomicInteger atomicInteger = (AtomicInteger)value;
-        System.out.println("oldvalue"+value);
-        System.out.println("newvalue"+newValue);
         atomicInteger.addAndGet((Integer) newValue);
         try {
             Thread.sleep(2000);

@@ -32,12 +32,11 @@ public class PersistentThreadPool {
         while(true){
             Enumeration enumeration = buffer.keys();
 
+
+
             while (enumeration.hasMoreElements()) {
                 Object key = enumeration.nextElement();
                 BufferValue bufferValue = (BufferValue) buffer.remove(key);
-
-                System.out.println(buffer.get(key));
-
                 if (bufferValue == null) {
                     continue;
                 }
@@ -46,25 +45,11 @@ public class PersistentThreadPool {
 
             }
             if( buffer.isEmpty() ){
-                waitEntry();
+                buffer.waitForTrigger();
             }
         }
 
 
     }
-
-
-    private void waitEntry(){
-        try {
-            synchronized (buffer){
-                logger.debug("ready to wait");
-                buffer.wait();
-            }
-        } catch (InterruptedException e) {
-            logger.debug("Interrupted", e);
-        }
-        logger.debug("Interrupted");
-    }
-
 
 }

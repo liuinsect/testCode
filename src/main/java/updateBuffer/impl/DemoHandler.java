@@ -7,15 +7,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by liukunyang on 15-1-28.
  */
-public class DemoHandler extends Handler {
+public class DemoHandler implements Handler {
 
     @Override
-    protected Object initBufferLine() {
+    public Object initBufferLine() {
         return  new AtomicInteger(0);
     }
 
     @Override
-    protected boolean doUpdate(Object value, Object newValue) {
+    public boolean doUpdate(Object value, Object newValue) {
         AtomicInteger num = (AtomicInteger)value;
         num.addAndGet((Integer) newValue);
         if( num.get() > 2 ){
