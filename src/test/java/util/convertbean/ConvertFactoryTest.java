@@ -29,7 +29,7 @@ public class ConvertFactoryTest {
 
         final CountDownLatch countDownLatch = new CountDownLatch(30);
 
-        ConvertBeanFrom newFromBean = newFromBean();
+       final  ConvertBeanFrom newFromBean = newFromBean();
         //        final List<AbTest> abTestList = new Con
         long start = System.nanoTime();
 
