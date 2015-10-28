@@ -17,34 +17,53 @@ import io.netty.util.CharsetUtil;
  * To change this template use File | Settings | File Templates.
  */
 public class TimeClient {
-    public static void main(String[] args) throws Exception {
+
+    public void  init()  throws Exception{
         String host = "127.0.0.1";
         EventLoopGroup workerGroup = new NioEventLoopGroup();
+        Bootstrap b = new Bootstrap(); // (1)
+        b.group(workerGroup); // (2)
+        b.channel(NioSocketChannel.class); // (3)
+        b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
+        b.handler(new ChannelInitializer<SocketChannel>() {
+            @Override
+            public void initChannel(SocketChannel ch) throws Exception {
+                ChannelPipeline pipeline = ch.pipeline();
+                pipeline.addLast(new HelloClientIntHandler());
+                pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
+                pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
 
-        try {
-            Bootstrap b = new Bootstrap(); // (1)
-            b.group(workerGroup); // (2)
-            b.channel(NioSocketChannel.class); // (3)
-            b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
-            b.handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    ChannelPipeline pipeline = ch.pipeline();
-                    pipeline.addLast(new TimeClientHandler());
-                    pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
-                    pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
+            }
+        });
 
-                }
-            });
-
-            // Start the client.
-            ChannelFuture f = b.connect(host, 8999).sync(); // (5)
+        // Start the client.
+        ChannelFuture f = b.connect(host, 8999).sync(); // (5)
 
 //            f.channel().write("hello this is client");
-            // Wait until the connection is closed.
-            f.channel().closeFuture().sync();
-        } finally {
-            workerGroup.shutdownGracefully();
+        // Wait until the connection is closed.
+        f.channel().closeFuture().sync();
+    }
+
+    public static void main(String[] args) {
+
+        while(true){
+            try {
+                TimeClient timeClient = new TimeClient();
+                timeClient.init();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+
+            }
         }
+
+
+
     }
 }

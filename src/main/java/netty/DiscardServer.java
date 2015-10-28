@@ -28,6 +28,10 @@ public class DiscardServer {
     }
 
     public void run() throws Exception {
+        final ChannelHandlerAdapter  channelHandlerAdapter = new HelloServerInHandler();
+
+
+
 
         EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -39,9 +43,9 @@ public class DiscardServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new DiscardServerHandler());
-                            pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
-                            pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
+                            pipeline.addLast( channelHandlerAdapter );
+                            pipeline.addLast( new StringDecoder(CharsetUtil.UTF_8));
+                            pipeline.addLast(new StringEncoder(CharsetUtil.UTF_8));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
@@ -65,7 +69,7 @@ public class DiscardServer {
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         } else {
-            port = 8080;
+            port = 8999;
         }
         new DiscardServer(port).run();
     }
