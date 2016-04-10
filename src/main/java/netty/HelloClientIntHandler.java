@@ -12,7 +12,7 @@ import io.netty.channel.ChannelHandlerContext;
 public class HelloClientIntHandler extends ChannelHandlerAdapter {
 
     // 接收server端的消息，并打印出来
-    @Override
+//    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf result = (ByteBuf) msg;
         byte[] result1 = new byte[result.readableBytes()];
@@ -24,7 +24,7 @@ public class HelloClientIntHandler extends ChannelHandlerAdapter {
     }
 
     // 连接成功后，向server发送消息
-    @Override
+//    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         String msg = "Are you ok?";
         ByteBuf encoded = ctx.alloc().buffer(4 * msg.length());

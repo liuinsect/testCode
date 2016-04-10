@@ -7,7 +7,7 @@ import io.netty.channel.ChannelHandlerAdapter;
  */
 public class CollectorThread implements Runnable {
 
-    private ChannelHandlerAdapter channelHandlerAdapter = new ChannelHandlerAdapter();
+//    private ChannelHandlerAdapter channelHandlerAdapter = new ChannelHandlerAdapter();
 
 
     public void run() {

@@ -12,7 +12,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class HelloServerInHandler extends ChannelHandlerAdapter {
 
-    @Override
+//    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         ByteBuf result = (ByteBuf) msg;
@@ -34,7 +34,7 @@ public class HelloServerInHandler extends ChannelHandlerAdapter {
         ctx.flush();
     }
 
-    @Override
+//    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
     }
